@@ -1,5 +1,6 @@
 ---
 import AdjacentPostsBar from '@/components/AdjacentPostsBar.astro'
+import PostComments from '@/components/PostComments.astro'
 import TagsBar from '@/components/TagsBar.astro'
 import ToC from '@/components/ToC.astro'
 import PageLayout, {
@@ -72,6 +73,8 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
   <article data-pagefind-body>
     <Content />
   </article>
+
+  <PostComments />
 
   <AdjacentPostsBar {post} slot="bottom" />
   <HeadingAnchorsPlugin />
