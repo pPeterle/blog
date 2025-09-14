@@ -13,10 +13,6 @@
 </p>
 
 <p align="center">
-  <img src="./public/preview.png" width="85%"/>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/github/package-json/v/FjellOverflow/Nordlys?label=Version&color=success"/>
   &ensp;
   <img src="https://img.shields.io/github/license/FjellOverflow/Nordlys?label=License&color=success"/>

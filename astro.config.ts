@@ -7,6 +7,7 @@ import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-s
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import tailwindcss from '@tailwindcss/vite'
 import expressiveCode from 'astro-expressive-code'
+import pagefind from "astro-pagefind"
 import sectionizePlugin from 'remark-sectionize'
 import readingTimePlugin from './src/plugins/readingTimePlugin'
 import config from './src/theme.config'
@@ -34,7 +35,8 @@ export default defineConfig({
       plugins: [pluginCollapsibleSections(), pluginLineNumbers()]
     }),
     mdx(),
-    sitemap()
+    sitemap(),
+    pagefind()
   ],
 
   markdown: {
