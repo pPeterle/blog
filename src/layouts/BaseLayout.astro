@@ -5,6 +5,8 @@ import ibmPlexMedium from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-5
 import ibmPlexSemiBold from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2?url'
 import ibmPlexBold from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff2?url'
 import '@fontsource/ibm-plex-sans/latin.css'
+import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
 
 import ModeManager from '@/components/mode/ModeManager.astro'
 import CodeBlockIconsPlugin from '@/plugins/CodeBlockIconsPlugin.astro'
@@ -104,6 +106,8 @@ const openGraphImageUrl = new URL(resolveImageUrl(openGraphImage), Astro.site)
         />
       )
     }
+    <Analytics />
+    <SpeedInsights />
     <ModeManager />
     <ClientRouter />
     <link href="/zoom-vanilla.js/zoom.css" rel="stylesheet" />
