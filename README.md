@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://nordlys.fjelloverflow.dev">
-    <img alt="logo" src="./public/favicon.svg" height="64">
+    <img alt="logo" src="./public/favicon.png" height="64">
   </a>
 </p>
 

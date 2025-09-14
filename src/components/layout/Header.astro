@@ -1,5 +1,5 @@
 ---
-import logo from '@/assets/logo.svg'
+import logo from '@/assets/logo-32.png'
 import Dropdown from '@/components/Dropdown.astro'
 import HeaderItem from '@/components/layout/HeaderItem.astro'
 import MobileNavToggle from '@/components/layout/MobileNavToggle.astro'
@@ -31,7 +31,7 @@ export const isNavItem = (item: HeaderItemType): item is NavItemType =>
       <Image
         alt="Nordlys logo, a drawing of two gray mountains with green northern lights in the background"
         src={logo}
-        height={24}
+        height={32}
         loading="eager"
       />
       {config.title}

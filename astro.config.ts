@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config'
 
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
+import vercelStatic from "@astrojs/vercel/static"
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import tailwindcss from '@tailwindcss/vite'
@@ -12,6 +13,15 @@ import config from './src/theme.config'
 
 export default defineConfig({
   site: config.site,
+  redirects: {
+    '/': '/posts'
+  },
+  prefetch: true,
+  adapter: vercelStatic({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   integrations: [
     expressiveCode({
       themes: config.expressiveCodeThemes,

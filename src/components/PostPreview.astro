@@ -23,7 +23,7 @@ const { id, data } = Astro.props.post
       />
     )
   }
-  <div class="flex w-full flex-col gap-2">
+  <div class="flex w-full flex-col">
     <div class="flex flex-col justify-between sm:flex-row sm:items-center">
       <a class="text-xl font-normal" href={`/posts/${id}/`} data-astro-prefetch>
         <span>{data.title}</span>
@@ -35,7 +35,7 @@ const { id, data } = Astro.props.post
         {toDateString(data.publishedDate)}
       </time>
     </div>
+    <div class="mb-2 opacity-75">{data.description}</div>
     <TagsBar tags={resolveTags(data.tags)} />
-    <div class="opacity-75">{data.description}</div>
   </div>
 </div>
