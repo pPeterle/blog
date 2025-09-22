@@ -1,9 +1,10 @@
 ---
-title: Docker
+title: Entenda Docker de uma vez por todas
 description: Tudo o que você precisa aprender sobre docker
-publishedDate: 2025-09-13
+publishedDate: 2025-09-21
 tags:
   - docker
+  - devops
 ---
 
 ## O que é
