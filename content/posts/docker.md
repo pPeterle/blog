@@ -417,8 +417,13 @@ docker run -m 512m --cpus="1" ubuntu
 
 Nele limitamos a memória a 512m e a quantidade de núcleos a 1.
 
+### Linux vs Windows vs MacOS
+
+Se você reparar, todos os comandos são exclusivos de linux. Logo para ter o Docker de forma realmente nativa, apenas no sistema operacional Linux. Contudo, para funcionar nos demais sistemas, o funcionamento padrão é a criação de uma máquina virtual Linux para que dessa forma possam ser executados os comandos exclusivos de Linux. 
+
 ## Referências
 
 https://devopscube.com/what-is-docker/
 https://www.freecodecamp.org/news/how-docker-containers-work/
 https://labs.iximiuz.com/tutorials/container-filesystem-from-scratch
+https://akitaonrails.com/2023/03/02/akitando-139-entendendo-como-containers-funcionam/
