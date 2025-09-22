@@ -35,7 +35,7 @@ Um container é a execução da sua imagem, você consegue criar, parar, mover e
 
 ### Volumes
 
-Os containers são feitos para serem uma imagem, ou seja, não possui estado. Você deve ser capaz de criar e apagar containers a todo instante. Porém existem alguns tipos de aplicações que possuem estado e salvam arquivos localmente. Um exemplo são banco de dados, você consegue executar eles dentro de um container docker.
+Os containers são feitos para serem stateless, ou seja, não possui estado. Você deve ser capaz de criar e apagar containers a todo instante. Porém existem alguns tipos de aplicações que possuem estado e salvam arquivos localmente. Um exemplo são banco de dados, você consegue executar eles dentro de um container docker.
 
 Contudo, ao apagar o container você irá perder tudo o que foi salvo. Para evitar isso, você pode utilizar `Volumes` para salvar os dados do seu container em um local definido que não será perdido ao container ser deletado
 
