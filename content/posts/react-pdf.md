@@ -138,7 +138,7 @@ Nesses casos específicos você pode aplicar uma condição específica para que
 
 ### Tabelas
 
-Criação de tabelas é a parte mais dolorosa de utilizar essa lib, porque não tem um componente específico para isso. Cabe a você criar seu próprio componente. Inicialmente pode parecer algo simples várias linhas para exibir conteúdo, até você se preocupar com a parte de bordas e paginação.
+Criação de tabelas é a parte mais dolorosa de utilizar essa lib, porque não tem um componente específico para isso. Cabe a você criar seu próprio componente. Inicialmente pode parecer algo simples, até você se preocupar com a parte de bordas e paginação.
 Eu recomendo você dar uma olhada na implementação das bibliotecas já existentes como: [@ag-media/react-pdf-table](https://github.com/ag-media/react-pdf-table#README).
 
 A parte que você tem que se atentar é com as bordas, porque elas são condicionais. Por exemplo, vamos supor que a primeira linha tenha sempre a borda de cima. Quando for desenhar a última linha da tabela. Ela deverá ter a borda superior e inferior.
