@@ -154,4 +154,8 @@ Como as margens são condicionais pode ter esse problema. Para contornar isso eu
 
 Possivelmente tem outra solução para o problema, porém não encontrei e dessa forma funcionou.
 
+### Storybook
 
+Como o React-PDF também gera um componente React. É possível utilizar o storybook para documentar seu pdf. Dessa forma, melhora bastante a documentação do seu código e facilita a manutenção futuramente. 
+
+A minha sugestão é dar uma olhada no [reposítório da woovi](https://github.com/woovibr/pix-pdf/tree/main). Na qual é implementado um storybook e uma arquitetura modular para criação de múltiplos PDFs.
