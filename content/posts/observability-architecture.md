@@ -33,9 +33,10 @@ A arquitetura segue um padrão bem comum no ecossistema Grafana, com um **único
 flowchart TB
   Apps["Aplicações<br/>(OTel SDK)"]
   Coletor["Coletor (Alloy)<br/>- Recebe OTLP<br/>- Scrape Prometheus<br/>- Coleta logs do K8s"]
-  Loki[("Loki<br/>(logs)")]
-  Tempo[("Tempo<br/>(traces)")]
-  Mimir[("Mimir<br/>(metrics)")]
+  Loki["Loki<br/>(logs)"]
+  Tempo["Tempo<br/>(traces)"]
+  Mimir["Mimir<br/>(metrics)"]
+  MinIO[("MinIO<br/>S3 self-hosted")]
   Grafana["Grafana<br/>read plane + alerting"]
   Notif["Discord / Email / WhatsApp"]
 
@@ -43,6 +44,9 @@ flowchart TB
   Coletor -->|logs| Loki
   Coletor -->|traces| Tempo
   Coletor -->|metrics| Mimir
+  Loki <--> MinIO
+  Tempo <--> MinIO
+  Mimir <--> MinIO
   Loki --> Grafana
   Tempo --> Grafana
   Mimir --> Grafana
@@ -140,6 +144,36 @@ Sem isso, você precisaria instrumentar manualmente cada endpoint para emitir m�
 ## Backends de storage
 
 Cada pilar tem um backend dedicado, e todos seguem o mesmo padrão arquitetural: separação entre **escrita**, **leitura** e **storage de longo prazo** em S3.
+
+### MinIO: o S3 self-hosted
+
+Antes de falar dos backends, vale destacar onde os dados realmente ficam. Loki, Tempo, Mimir e Pyroscope foram desenhados para usar **object storage compatível com S3** como armazenamento de longo prazo. Em ambientes cloud, o natural seria usar Amazon S3, GCS ou Azure Blob. Mas como toda a stack é self-hosted, a gente roda o [MinIO](https://min.io/) dentro do próprio cluster Kubernetes.
+
+O MinIO é um servidor de object storage **100% compatível com a API do S3**. Para Loki, Tempo e Mimir, ele é indistinguível do S3 da AWS — basta apontar o endpoint para o serviço interno do MinIO (`minio.minio.svc.cluster.local:9000`) e fornecer access key/secret key.
+
+```yaml title=loki-values.yaml
+storage_config:
+  aws:
+    s3: http://access-key:secret-key@minio.minio.svc:9000/loki-chunks
+    s3forcepathstyle: true
+```
+
+A configuração de bucket é tradicional: cada backend tem seu próprio bucket, criado antes da primeira instalação:
+
+```
+loki-chunks       # chunks de logs
+loki-ruler        # regras do Loki
+mimir-tsdb        # blocos de métricas
+mimir-ruler       # regras do Mimir
+tempo-traces      # traces
+pyroscope         # profiles
+```
+
+> Ter o MinIO no mesmo cluster traz dois benefícios diretos: **latência baixíssima** (tráfego não sai do cluster) e **custo previsível** (você paga só pelo disco que provisiona, sem cobranças por GB transferido ou requisição PUT/GET como no S3 da AWS).
+
+A persistência dos dados do MinIO fica em volumes do Kubernetes (no nosso caso, um StorageClass com Ceph RBD via CSI). Isso significa que mesmo se o pod do MinIO reiniciar, os dados continuam no disco. Para alta disponibilidade, dá para rodar o MinIO em modo distribuído (com erasure coding entre múltiplos nós), mas para um cluster pequeno-médio, uma instância única já resolve.
+
+A partir daqui, sempre que eu mencionar "S3", entenda como **MinIO rodando dentro do cluster** — a interface é a mesma.
 
 ### Loki para logs
 
