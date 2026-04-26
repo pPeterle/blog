@@ -16,4 +16,9 @@ const { class: className, ...rest } = Astro.props
     padding-inline: calc(var(--spacing) * 1);
     padding-top: calc(var(--spacing) * 0.5);
   }
+
+  .prose p {
+    text-align: justify;
+    overflow-wrap: break-word;
+  }
 </style>
