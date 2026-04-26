@@ -8,6 +8,7 @@ import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import tailwindcss from '@tailwindcss/vite'
 import expressiveCode from 'astro-expressive-code'
 import pagefind from "astro-pagefind"
+import rehypeMermaid from 'rehype-mermaid'
 import sectionizePlugin from 'remark-sectionize'
 import readingTimePlugin from './src/plugins/readingTimePlugin'
 import config from './src/theme.config'
@@ -40,7 +41,8 @@ export default defineConfig({
   ],
 
   markdown: {
-    remarkPlugins: [readingTimePlugin, sectionizePlugin]
+    remarkPlugins: [readingTimePlugin, sectionizePlugin],
+    rehypePlugins: [[rehypeMermaid, { strategy: 'pre-mermaid' }]]
   },
 
   vite: {

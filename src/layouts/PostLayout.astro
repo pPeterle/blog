@@ -79,3 +79,87 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
   <AdjacentPostsBar {post} slot="bottom" />
   <HeadingAnchorsPlugin />
 </PageLayout>
+
+<style is:global>
+  .prose pre.mermaid {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    margin: 1.5em 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  .prose pre.mermaid svg {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+</style>
+
+<script>
+  import mermaid from 'mermaid'
+
+  const getCssVar = (name: string) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+
+  const rgbVar = (name: string) => {
+    const v = getCssVar(name)
+    return v ? `rgb(${v})` : ''
+  }
+
+  const render = () => {
+    const isDark =
+      document.documentElement.getAttribute('data-mode') === 'dark'
+
+    const accent = rgbVar('--accent') || (isDark ? '#fff' : '#000')
+    const bg = rgbVar('--accent-bg') || (isDark ? '#000' : '#fff')
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      securityLevel: 'loose',
+      themeVariables: {
+        background: bg,
+        primaryColor: bg,
+        primaryTextColor: accent,
+        primaryBorderColor: accent,
+        secondaryColor: bg,
+        secondaryTextColor: accent,
+        secondaryBorderColor: accent,
+        tertiaryColor: bg,
+        tertiaryTextColor: accent,
+        tertiaryBorderColor: accent,
+        lineColor: accent,
+        textColor: accent,
+        mainBkg: bg,
+        nodeBorder: accent,
+        clusterBkg: bg,
+        clusterBorder: accent,
+        edgeLabelBackground: bg,
+        labelTextColor: accent,
+        noteTextColor: accent,
+        noteBkgColor: bg,
+        noteBorderColor: accent
+      },
+      flowchart: { htmlLabels: true, curve: 'basis' }
+    })
+
+    document.querySelectorAll<HTMLElement>('pre.mermaid').forEach((el) => {
+      el.removeAttribute('data-processed')
+      const original = el.getAttribute('data-mermaid-source')
+      if (original) el.textContent = original
+      else el.setAttribute('data-mermaid-source', el.textContent || '')
+    })
+
+    mermaid.run({ querySelector: 'pre.mermaid' })
+  }
+
+  render()
+
+  const observer = new MutationObserver((mutations) => {
+    if (mutations.some((m) => m.attributeName === 'data-mode')) render()
+  })
+
+  observer.observe(document.documentElement, { attributes: true })
+</script>
