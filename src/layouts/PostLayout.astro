@@ -88,11 +88,15 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
     margin: 1.5em 0;
     text-align: center;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: normal;
   }
 
   .prose pre.mermaid svg {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    display: block;
     margin: 0 auto;
   }
 </style>
@@ -152,7 +156,15 @@ const frontmatter: PageLayoutProps['frontmatter'] = {
       else el.setAttribute('data-mermaid-source', el.textContent || '')
     })
 
-    mermaid.run({ querySelector: 'pre.mermaid' })
+    mermaid.run({ querySelector: 'pre.mermaid' }).then(() => {
+      document.querySelectorAll<SVGElement>('pre.mermaid svg').forEach((svg) => {
+        svg.removeAttribute('width')
+        svg.removeAttribute('height')
+        svg.style.maxWidth = '100%'
+        svg.style.width = '100%'
+        svg.style.height = 'auto'
+      })
+    })
   }
 
   render()
