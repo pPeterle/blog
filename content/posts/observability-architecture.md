@@ -146,6 +146,7 @@ Cada pilar tem um backend dedicado, e todos seguem o mesmo padrão arquitetural:
 O Loki é "Prometheus para logs". Ao invés de indexar todo o conteúdo do log (como faz o Elasticsearch), ele só indexa **labels** (`service`, `namespace`, `severity`). O conteúdo do log fica em chunks comprimidos no S3.
 
 Isso traz dois benefícios:
+
 - **Custo de storage muito menor** (chunks comprimidos no S3 vs índice invertido em disco).
 - **Cardinalidade controlada**, porque labels são poucos e limitados. Você não pode usar um `request_id` ou `trace_id` como label, senão o índice explode.
 
@@ -159,7 +160,7 @@ Tempo é um backend de traces que armazena tudo em S3. A grande sacada é que el
 
 Para queries que precisam ser performáticas, dá para configurar **dedicated columns** com atributos de span que aparecem com frequência em filtros (no nosso caso, IDs de negócio). Isso transforma o atributo em uma coluna nativa do Parquet, ao invés de ficar dentro de um campo JSON genérico.
 
-O Tempo também tem o que chamam de **metrics-generator**, que cumpre uma função similar ao spanmetrics do coletor: transformar spans em métricas em tempo de ingestão. Acabamos usando os dois (metrics-generator do Tempo e spanmetrics do Alloy), mas o ideal é escolher um e ficar com ele para evitar séries duplicadas.
+O Tempo também tem o que chamam de **metrics-generator**, que cumpre uma função similar ao spanmetrics do coletor: transformar spans em métricas em tempo de ingestão.
 
 ### Mimir para métricas
 
@@ -241,7 +242,7 @@ sidecar:
   dashboards:
     enabled: true
     label: grafana_dashboard
-    labelValue: "1"
+    labelValue: '1'
     folderAnnotation: grafana_folder
     searchNamespace: ALL
 ```
@@ -254,9 +255,9 @@ kind: ConfigMap
 metadata:
   name: meu-dashboard
   labels:
-    grafana_dashboard: "1"
+    grafana_dashboard: '1'
   annotations:
-    grafana_folder: "Aplicacoes"
+    grafana_folder: 'Aplicacoes'
 data:
   dashboard.json: |
     { ... json do dashboard ... }
@@ -322,7 +323,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Latência p95 do checkout acima de 5s"
+          summary: 'Latência p95 do checkout acima de 5s'
 ```
 
 Repare que o alerta usa `traces_spanmetrics_duration_milliseconds_bucket`, que é exatamente a métrica gerada pelo coletor a partir dos traces. Sem instrumentar nada na aplicação, conseguimos alertar em latência por endpoint.
@@ -394,6 +395,7 @@ flowchart TB
 ```
 
 A lógica é:
+
 - Por padrão, todo alerta cai no Discord (ruído baixo, time vê quando estiver online).
 - Se a severidade for `critical` ou `emergency`, dispara em **3 canais simultâneos** (Discord, Email, WhatsApp).
 - WhatsApp tem mute time durante a madrugada para alertas que podem esperar, mas Discord e Email continuam disparando.
@@ -457,6 +459,7 @@ Para quem quer ir mais a fundo, alguns tópicos que mereciam um post próprio:
 ## Conclusão
 
 Montar uma stack de observabilidade self-hosted dá trabalho, mas tem benefícios claros:
+
 - **Custo previsível** (você paga storage e compute, não por GB ingerido).
 - **Privacidade** (dados sensíveis nunca saem da sua infra).
 - **Flexibilidade** (você customiza qualquer parte da stack).
