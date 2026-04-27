@@ -21,4 +21,11 @@ const { class: className, ...rest } = Astro.props
     text-align: justify;
     overflow-wrap: break-word;
   }
+
+  .prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 </style>
